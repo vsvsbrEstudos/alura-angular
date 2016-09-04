@@ -1,13 +1,13 @@
 angular.module('meusServicos', ['ngResource'])
-.factory('recursoFoto', function ($resource) {
+.factory('recursoFoto', ['$resource', function ($resource) {
   return $resource('v1/fotos/:fotoId', null, {
     update : {
       method: 'PUT'
     }
   });
 
-})
-.factory('cadastroDeFotos', function(recursoFoto, $q, $rootScope) {
+}])
+.factory('cadastroDeFotos', ['recursoFoto', '$q', '$rootScope', function(recursoFoto, $q, $rootScope) {
   var servico = {}
 
   var evento = 'fotoCadastrada';
@@ -47,4 +47,4 @@ angular.module('meusServicos', ['ngResource'])
   };
 
   return servico;
-});
+}]);
