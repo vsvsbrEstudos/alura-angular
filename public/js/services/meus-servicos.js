@@ -7,16 +7,22 @@ angular.module('meusServicos', ['ngResource'])
   });
 
 })
-.factory('cadastroDeFotos', function(recursoFoto, $q) {
+.factory('cadastroDeFotos', function(recursoFoto, $q, $rootScope) {
   var servico = {}
+
+  var evento = 'fotoCadastrada';
 
   servico.cadastrar = function(foto){
     return $q(function(resolve, reject) {
         if(foto._id) {
           recursoFoto.update({fotoId : foto._id}, foto, function(){
             var mensagem = 'Foto ['+foto.titulo+'] atualizada com sucesso.';
+
             console.log(mensagem);
-            resolve({mensagem: mensagem, inclusao: false});
+            resolve({
+              mensagem: mensagem,
+              inclusao: false});
+            $rootScope.$broadcast(evento);
           }, function(erro){
             console.log(erro);
             reject({mensagem: 'Não foi possível alterar a foto.'});
@@ -24,8 +30,13 @@ angular.module('meusServicos', ['ngResource'])
         } else {
           recursoFoto.save(foto, function() {
             var mensagem = 'Foto ['+foto.titulo+'] atualizada com sucesso.';
+
             console.log(mensagem);
-            resolve({mensagem: mensagem, inclusao: true});
+            resolve({
+              mensagem: mensagem,
+              inclusao: true});
+            $rootScope.$broadcast(evento);
+
           }, function(erro){
             console.log(erro);
             reject({mensagem: 'Não foi possível incluir a foto.'});

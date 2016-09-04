@@ -22,7 +22,6 @@ angular.module('alurapic').controller('FotoController', function($scope, recurso
           $scope.foto = {};
           $scope.formulario.$setPristine();
         };
-        $scope.$broadcast('fotoCadastrada');
       })
       .catch(function(dados){
         $scope.mensagem = dados.mensagem;
